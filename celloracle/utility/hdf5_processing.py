@@ -98,7 +98,7 @@ def dump_hdf5(obj: object, filename: str,
                                      fletcher32=False, shuffle=False)
 
 
-def load_hdf5(filename: str, obj_class: Type[object]) -> object:
+def load_hdf5(filename, obj_class, ignore_attrs_if_err=[]):
     """Load all attributes from a hdf5 encoded python object
 
     Arguments
@@ -120,10 +120,20 @@ def load_hdf5(filename: str, obj_class: Type[object]) -> object:
 
     obj = obj_class.__new__(obj_class)
     _file = h5py.File(filename, "r")
+
+    ignore_attrs_if_err = ["&"+ k for k in ignore_attrs_if_err]
+
     for k in _file.keys():
-        if k.startswith("&"):
-            setattr(obj, k[1:], _uint2obj(_file[k][:]))
+        if k in ignore_attrs_if_err:
+            try:
+                setattr(obj, k[1:], _uint2obj(_file[k][:]))
+            except:
+                pass
         else:
-            setattr(obj, k, _file[k][:])
+            if k.startswith("&"):
+                setattr(obj, k[1:], _uint2obj(_file[k][:]))
+            else:
+                setattr(obj, k, _file[k][:])
     _file.close()
+
     return obj

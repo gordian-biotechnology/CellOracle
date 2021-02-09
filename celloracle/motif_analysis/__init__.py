@@ -9,17 +9,20 @@ Finally we will get list of TFs that potentially binds to a specific gene.
 """
 
 from .motif_analysis_utility import is_genome_installed
-from .process_bed_file import peak2fasta, read_bed
+from .process_bed_file import peak2fasta, read_bed, remove_zero_seq
 from .tfinfo_core import (load_TFinfo, load_TFinfo_from_parquets,
                           make_TFinfo_from_scanned_file, TFinfo, scan_dna_for_motifs,
                           SUPPORTED_REF_GENOME)
 from .tss_annotation import get_tss_info
 from .process_cicero_data import integrate_tss_peak_with_cicero
 from . import process_cicero_data
+from .motif_data import load_motifs, PATH_TO_MOTIF_DATA, PFM_PATHS, MOTIFS_PATH_DICT, MOTIFS_LIST
 
-__all__ = ["is_genome_installed", "peak2fasta", "read_bed", "scan_dna_for_motifs"
+
+__all__ = ["is_genome_installed", "peak2fasta", "read_bed", "remove_zero_seq",
            "load_TFinfo", "load_TFinfo_from_parquets",
            "make_TFinfo_from_scanned_file",
-           "TFinfo", "SUPPORTED_REF_GENOME",
+           "TFinfo", "scan_dna_for_motifs", "SUPPORTED_REF_GENOME",
            "get_tss_info", "process_cicero_data",
-           "integrate_tss_peak_with_cicero"]
+           "integrate_tss_peak_with_cicero",
+           "load_motifs", "PATH_TO_MOTIF_DATA", "PFM_PATHS", "MOTIFS_PATH_DICT", "MOTIFS_LIST"]

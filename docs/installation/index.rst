@@ -59,7 +59,7 @@ Please install velocyto with the following commands or `the author's instruction
 
 ::
 
-    conda install numpy scipy cython numba matplotlib scikit-learn h5py click pysam gcc llvm
+    conda install numpy scipy cython numba matplotlib scikit-learn h5py click pysam llvm louvain
 
 Then
 
@@ -82,25 +82,11 @@ Please install scanpy with the following commands or `the author's instruction <
 
 ::
 
-    conda install seaborn statsmodels numba pytables python-igraph louvain
-
-Then
-
-::
-
-    pip install scanpy
-
-4. Install `gimmemotifs <https://gimmemotifs.readthedocs.io/en/master/installation.html>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Please install gimmemotifs with the following commands or `the author's instruction <https://gimmemotifs.readthedocs.io/en/master/installation.html>`_ .
+    conda install scanpy
 
 
-::
 
-    conda install genomepy=0.5.5 gimmemotifs=0.13.1
-
-
-5. Install other python libraries
+4. Install other python libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Please install other python libraries below with the following commands.
 
@@ -109,7 +95,7 @@ Please install other python libraries below with the following commands.
     conda install goatools pyarrow tqdm joblib jupyter
 
 
-6. install celloracle from github
+5. install celloracle from github
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
@@ -137,7 +123,7 @@ In R console,
 
 `Cicero <https://cole-trapnell-lab.github.io/cicero-release/docs/#installing-cicero>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Please install ``Cicero`` with the following r-script or `the author's instruction <https://cole-trapnell-lab.github.io/cicero-release/docs/#installing-cicero>`_ .
+Please install ``Cicero`` and ``Monocle3`` with the following r-script or `the author's instruction <https://cole-trapnell-lab.github.io/cicero-release/docs_m3/#installing-cicero>`_ .
 If you do not have scATAC-seq data and plan to use celloracle's base GRN, you do not need to install ``Cicero``.
 
 In R console,
@@ -145,8 +131,12 @@ In R console,
 .. code-block:: r
 
    if (!requireNamespace("BiocManager", quietly = TRUE))
-   install.packages("BiocManager")
-   BiocManager::install("cicero")
+    install.packages("BiocManager")
+   BiocManager::install(c("Gviz", "GenomicRanges", "rtracklayer"))
+
+   install.packages("devtools")
+   devtools::install_github("cole-trapnell-lab/cicero-release", ref = "monocle3")
+
 
 `igraph <https://igraph.org/r/>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -194,6 +184,21 @@ In python console,
 
 Please make sure that all R libraries are installed. The following message will be shown when all R libraries are appropriately installed.
 
+| R path: /usr/lib/R/bin/R
 | checking R library installation: igraph -> OK
 | checking R library installation: linkcomm -> OK
 | checking R library installation: rnetcarto -> OK
+
+
+The first line above is your R path. If you want to use another R program that was installed at the different place, you can set new R path with the following command.
+
+.. code-block:: Python
+
+   co.network_analysis.set_R_path("ENTER YOUR R PATH HERE")
+
+
+If you changed R path settings, please check installation again to make sure everything works.
+
+.. code-block:: Python
+
+   co.network_analysis.test_R_libraries_installation()
